@@ -28,8 +28,9 @@
     // Blood:
     private _bloodVolume = GET_BLOOD_VOLUME(_unit);
     private _bloodLoss = GET_BLOOD_LOSS(_unit);
+    private _hemorrhage = GET_HEMORRHAGE(_unit);
     private _secondsToHeartstop = if (_bloodLoss != 0) then {format ["[<t color ='#FF9999'>Time Left:</t> %1 sec]", (((_bloodVolume - BLOOD_VOLUME_CLASS_4_HEMORRHAGE) max 0) / _bloodLoss) toFixed 1]} else {""};
-    _return pushBack format ["Blood: %1", _bloodVolume toFixed 3];
+    _return pushBack format ["Blood: %1 [Hemorrhage: %2]", _bloodVolume toFixed 3, _hemorrhage];
     _return pushBack format [" - [Loss: %1] %2", _bloodLoss toFixed 5, _secondsToHeartstop];
 
     // Heart:
@@ -43,7 +44,8 @@
     private _pain = GET_PAIN(_unit);
     private _painSuppress = GET_PAIN_SUPPRESS(_unit);
     private _painLevel = GET_PAIN_PERCEIVED(_unit);
-    _return pushBack format ["Effective Pain: %1", _painLevel toFixed 3];
+    private _isInPain = IS_IN_PAIN(_unit);
+    _return pushBack format ["Effective Pain: %1 [%2]", _painLevel toFixed 3, _isInPain];
     _return pushBack format [" - [Pain: %1] [Suppress: %2]", _pain toFixed 3, _painSuppress toFixed 3];
 
     // Damage:
@@ -88,10 +90,41 @@
         _return pushBack format ["%1: %2 [%3 ml]", ALL_SELECTIONS select _xBodyPartN, _xType, _xVolumeAdded];
     } forEach _ivBags;
 
+    // Medications:
+    _return pushBack "------- Medications: -------";
+    private _heartRateAdjustmentSum = 0;
+    private _heartRateAdjustments = (_unit getVariable [VAR_HEART_RATE_ADJ, []]) apply {
+        _x params ["_value", "_timeTillMaxEffect", "_maxTimeInSystem", "_timeInSystem"];
+        private _effectRatio = ((_timeInSystem / (1 max _timeTillMaxEffect)) ^ 2) min 1;
+        private _effect = _value * _effectRatio * (_maxTimeInSystem - _timeInSystem) / _maxTimeInSystem;
+        _heartRateAdjustmentSum = _heartRateAdjustmentSum + _effect;
+        (floor (10 * _effect)) / 10
+    };
+    private _painAdjustmentSum = 0;
+    private _painAdjustments = (_unit getVariable [VAR_PAIN_SUPP_ADJ, []]) apply {
+        _x params ["_value", "_timeTillMaxEffect", "_maxTimeInSystem", "_timeInSystem"];
+        private _effectRatio = ((_timeInSystem / (1 max _timeTillMaxEffect)) ^ 2) min 1;
+        private _effect = _value * _effectRatio * (_maxTimeInSystem - _timeInSystem) / _maxTimeInSystem;
+        _painAdjustmentSum = _painAdjustmentSum + _effect;
+        (floor (100 * _effect)) / 100
+    };
+    private _peripheralResistanceSum = 0;
+    private _peripheralResistanceAdjustments = (_unit getVariable [VAR_PERIPH_RES_ADJ, []]) apply {
+        _x params ["_value", "_timeTillMaxEffect", "_maxTimeInSystem", "_timeInSystem"];
+        private _effectRatio = ((_timeInSystem / (1 max _timeTillMaxEffect)) ^ 2) min 1;
+        private _effect = _value * _effectRatio * (_maxTimeInSystem - _timeInSystem) / _maxTimeInSystem;
+        _peripheralResistanceSum = _peripheralResistanceSum + _effect;
+        (floor (10 * _effect)) / 10
+    };
+    _return pushBack format ["HeartR Adjust %1 - %2", _heartRateAdjustmentSum toFixed 3, _heartRateAdjustments];
+    _return pushBack format ["PainS  Adjust %1 - %2", _painAdjustmentSum toFixed 3, _painAdjustments];
+    _return pushBack format ["Resist Adjust %1 - %2", _peripheralResistanceSum toFixed 3, _peripheralResistanceAdjustments];
+
+
     // Footer:
     _return pushBack "</t>";
 
     // Return:
     _return joinString "<br/>"
-}, [30]] call EFUNC(common,watchVariable);
+}, [40]] call EFUNC(common,watchVariable);
 

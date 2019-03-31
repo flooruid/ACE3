@@ -1,4 +1,6 @@
 PREP(addHeartRateAdjustment);
+PREP(addPainSuppressionAdjustment);
+PREP(addViscosityAdjustment);
 PREP(adjustPainLevel);
 PREP(getBloodLoss);
 PREP(getBloodPressure);

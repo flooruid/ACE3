@@ -53,7 +53,7 @@ if (_hemorrhage != GET_HEMORRHAGE(_unit)) then {
 
 private _bloodLoss = GET_BLOOD_LOSS(_unit);
 if (_bloodLoss > 0) then {
-    _unit setVariable [QGVAR(bloodloss), _bloodLoss, _syncValues];
+    _unit setVariable [QGVAR(bloodloss), _bloodLoss, _syncValues]; // ToDo: nothing uses this, remove?
     if !IS_BLEEDING(_unit) then {
         _unit setVariable [VAR_IS_BLEEDING, true, true];
     };
@@ -112,11 +112,11 @@ switch (true) do {
         [QEGVAR(medical,FatalVitals), _unit] call CBA_fnc_localEvent;
     };
     case (_heartRate < 30): {  // With a heart rate below 30 but bigger than 20 there is a chance to enter the cardiac arrest state
-        private _nextCheck = _unit getVariable [QGVAR(lastCheckCriticalHeartRate), CBA_missionTime];
+        private _nextCheck = _unit getVariable [QGVAR(nextCheckCriticalHeartRate), CBA_missionTime];
         private _enterCardiacArrest = false;
         if (CBA_missionTime >= _nextCheck) then {
             _enterCardiacArrest = random 1 < (0.4 + 0.6*(30 - _heartRate)/10);  // Variable chance of getting into cardiac arrest.
-            _unit setVariable [QGVAR(lastCheckCriticalHeartRate), CBA_missionTime + 5];
+            _unit setVariable [QGVAR(nextCheckCriticalHeartRate), CBA_missionTime + 5];
         };
         if (_enterCardiacArrest) then {
             TRACE_2("Heart rate critical. Cardiac arrest",_unit,_heartRate);

@@ -82,25 +82,19 @@ if (alive _target) then {
     // Adjust the heart rate based upon config entry
     if (_heartRateChange != 0) then {
         TRACE_1("heartRateChange", _heartRateChange);
-        private _adjustments = _target getVariable [VAR_HEART_RATE_ADJ,[]];
-        _adjustments pushBack [_heartRateChange, _timeTillMaxEffect, _timeInSystem, 0];
-        _target setVariable [VAR_HEART_RATE_ADJ, _adjustments];
+        [_target, _heartRateChange, _timeTillMaxEffect, _timeInSystem] call EFUNC(medical_status,addHeartRateAdjustment);
     };
 
     // Adjust the pain suppression based upon config entry
     if (_painReduce > 0) then {
         TRACE_1("painReduce", _painReduce);
-        private _adjustments = _target getVariable [VAR_PAIN_SUPP_ADJ,[]];
-        _adjustments pushBack [_painReduce, _timeTillMaxEffect, _timeInSystem, 0];
-        _target setVariable [VAR_PAIN_SUPP_ADJ, _adjustments];
+        [_target, _painReduce, _timeTillMaxEffect, _timeInSystem] call EFUNC(medical_status,addPainSuppressionAdjustment);
     };
 
     // Adjust the peripheral resistance based upon config entry
     if (_viscosityChange != 0) then {
         TRACE_1("viscosityChange", _viscosityChange);
-        private _adjustments = _target getVariable [VAR_PERIPH_RES_ADJ,[]];
-        _adjustments pushBack [_viscosityChange, _timeTillMaxEffect, _timeInSystem, 0];
-        _target setVariable [VAR_PERIPH_RES_ADJ, _adjustments];
+        [_target, _viscosityChange, _timeTillMaxEffect, _timeInSystem] call EFUNC(medical_status,addViscosityAdjustment);
     };
 };
 

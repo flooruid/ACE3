@@ -22,28 +22,24 @@ private _adjustments = _unit getVariable [VAR_PAIN_SUPP_ADJ, []];
 if !(_adjustments isEqualTo []) then {
     {
         _x params ["_value", "_timeTillMaxEffect", "_maxTimeInSystem", "_timeInSystem"];
-        if (_value != 0 && {_maxTimeInSystem > 0}) then {
-            if (_timeInSystem >= _maxTimeInSystem) then {
-                 _adjustments set [_forEachIndex, nil];
-            } else {
-                _timeInSystem = _timeInSystem + _deltaT;
-                private _effectRatio = ((_timeInSystem / (1 max _timeTillMaxEffect)) ^ 2) min 1;
-                _painSupressAdjustment = _painSupressAdjustment + _value * _effectRatio * (_maxTimeInSystem - _timeInSystem) / _maxTimeInSystem;
-                _x set [3, _timeInSystem];
-            };
+        if (_timeInSystem >= _maxTimeInSystem) then {
+             _adjustments set [_forEachIndex, -1];
         } else {
-            _adjustments set [_forEachIndex, nil];
+            _timeInSystem = _timeInSystem + _deltaT;
+            private _effectRatio = ((_timeInSystem / _timeTillMaxEffect) ^ 2) min 1;
+            _painSupressAdjustment = _painSupressAdjustment + _value * _effectRatio * (_maxTimeInSystem - _timeInSystem) / _maxTimeInSystem;
+            _x set [3, _timeInSystem];
         };
     } forEach _adjustments;
 
-    _unit setVariable [VAR_PAIN_SUPP_ADJ, _adjustments - [nil], (_syncValue || {_adjustments isEqualTo []})]; // always sync on last run
+    _unit setVariable [VAR_PAIN_SUPP_ADJ, _adjustments - [-1], (_syncValue || {_adjustments isEqualTo []})]; // always sync on last run
 
     _unit setVariable [VAR_PAIN_SUPP, 0 max _painSupressAdjustment, _syncValue];
 };
 
 // Handle continuous pain reduction
 private _pain = GET_PAIN(_unit);
-_unit setVariable [QEGVAR(medical_status,pain), 0 max (_pain - _deltaT / PAIN_FADE_TIME), _syncValue];
+_unit setVariable [VAR_PAIN, 0 max (_pain - _deltaT / PAIN_FADE_TIME), _syncValue];
 
 // Handles simple medication
 if (isNil QEGVAR(medical_treatment,advancedMedication) || {!EGVAR(medical_treatment,advancedMedication)}) then {
