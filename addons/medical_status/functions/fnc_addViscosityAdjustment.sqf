@@ -1,7 +1,7 @@
 #include "script_component.hpp"
 /*
  * Author: BaerMitUmlaut, PabstMirror
- * Adds a heart rate adjustment that will take effect over time.
+ * Adds a viscosity adjustment that will take effect over time.
  *
  * Arguments:
  * 0: The Unit                                            <OBJECT>
