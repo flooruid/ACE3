@@ -27,11 +27,12 @@
 
     // Blood:
     private _bloodVolume = GET_BLOOD_VOLUME(_unit);
+    private _woundBleeding = GET_WOUND_BLEEDING(_unit);
     private _bloodLoss = GET_BLOOD_LOSS(_unit);
     private _hemorrhage = GET_HEMORRHAGE(_unit);
     private _secondsToHeartstop = if (_bloodLoss != 0) then {format ["[<t color ='#FF9999'>Time Left:</t> %1 sec]", (((_bloodVolume - BLOOD_VOLUME_CLASS_4_HEMORRHAGE) max 0) / _bloodLoss) toFixed 1]} else {""};
     _return pushBack format ["Blood: %1 [Hemorrhage: %2]", _bloodVolume toFixed 3, _hemorrhage];
-    _return pushBack format [" - [Loss: %1] %2", _bloodLoss toFixed 5, _secondsToHeartstop];
+    _return pushBack format [" - [W: %1 T: %2] %3", _woundBleeding toFixed 4, _bloodLoss toFixed 4, _secondsToHeartstop];
 
     // Heart:
     private _cardiacOutput = [_unit] call EFUNC(medical_status,getCardiacOutput);

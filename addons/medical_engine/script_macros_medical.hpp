@@ -108,6 +108,7 @@
 // Defined here for easy consistency with GETVAR/SETVAR (also a list for reference)
 #define VAR_BLOOD_PRESS QEGVAR(medical,bloodPressure)
 #define VAR_BLOOD_VOL   QEGVAR(medical,bloodVolume)
+#define VAR_WOUND_BLEEDING QEGVAR(medical,woundBleeding)
 #define VAR_CRDC_ARRST  QEGVAR(medical,inCardiacArrest)
 #define VAR_HEART_RATE  QEGVAR(medical,heartRate)
 #define VAR_PAIN        QEGVAR(medical,pain)
@@ -129,6 +130,7 @@
 // Retrieval macros for common unit values
 // Defined for easy consistency and speed
 #define GET_BLOOD_VOLUME(unit)      (unit getVariable [VAR_BLOOD_VOL,DEFAULT_BLOOD_VOLUME])
+#define GET_WOUND_BLEEDING(unit)    (unit getVariable [VAR_WOUND_BLEEDING,0])
 #define GET_HEART_RATE(unit)        (unit getVariable [VAR_HEART_RATE,DEFAULT_HEART_RATE])
 #define GET_HEMORRHAGE(unit)        (unit getVariable [VAR_HEMORRHAGE,0])
 #define GET_PAIN(unit)              (unit getVariable [VAR_PAIN,0])

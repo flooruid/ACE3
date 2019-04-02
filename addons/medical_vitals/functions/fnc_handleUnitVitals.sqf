@@ -51,9 +51,8 @@ if (_hemorrhage != GET_HEMORRHAGE(_unit)) then {
     _unit setVariable [VAR_HEMORRHAGE, _hemorrhage, true];
 };
 
-private _bloodLoss = GET_BLOOD_LOSS(_unit);
+private _bloodLoss = GET_WOUND_BLEEDING(_unit);
 if (_bloodLoss > 0) then {
-    _unit setVariable [QGVAR(bloodloss), _bloodLoss, _syncValues]; // ToDo: nothing uses this, remove?
     if !IS_BLEEDING(_unit) then {
         _unit setVariable [VAR_IS_BLEEDING, true, true];
     };

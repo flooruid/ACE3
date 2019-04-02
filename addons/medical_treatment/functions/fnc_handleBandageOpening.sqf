@@ -24,7 +24,7 @@ private _bodyPartN = _injury select 2;
 private _category = _injury select 6;
 private _postfix = ["Minor", "Medium", "Large"] select _category;
 private _className = format ["%1%2", EGVAR(medical_damage,woundClassNames) select _classID, _postfix];
-        
+
 private _reopeningChance = DEFAULT_BANDAGE_REOPENING_CHANCE;
 private _reopeningMinDelay = DEFAULT_BANDAGE_REOPENING_MIN_DELAY;
 private _reopeningMaxDelay = DEFAULT_BANDAGE_REOPENING_MAX_DELAY;
@@ -92,7 +92,7 @@ if (random 1 <= _reopeningChance) then {
         if (count _openWounds - 1 < _injuryIndex) exitWith {};
 
         _injury params ["", "_classID", "_bodyPartN"];
-        
+
         private _selectedInjury = _openWounds select _injuryIndex;
         if (_selectedInjury select 1 == _classID && {_selectedInjury select 2 == _bodyPartN}) then { // matching the IDs
             private _bandagedWounds = _target getVariable [QEGVAR(medical,bandagedWounds), []];
@@ -112,6 +112,8 @@ if (random 1 <= _reopeningChance) then {
                 _openWounds set [_injuryIndex, _selectedInjury];
                 _target setVariable [QEGVAR(medical,bandagedWounds), _bandagedWounds, true];
                 _target setVariable [QEGVAR(medical,openWounds), _openWounds, true];
+
+                [_unit] call EFUNC(medical_status,updateWoundBloodLoss);
             };
         };
     }, [_target, _impact, _part, _injuryIndex, +_injury], _delay] call CBA_fnc_waitAndExecute;

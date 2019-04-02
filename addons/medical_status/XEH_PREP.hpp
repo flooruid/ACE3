@@ -14,3 +14,4 @@ PREP(isInStableCondition);
 PREP(setCardiacArrest);
 PREP(setDead);
 PREP(setUnconscious);
+PREP(updateWoundBloodLoss);
