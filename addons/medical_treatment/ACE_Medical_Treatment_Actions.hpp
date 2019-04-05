@@ -265,6 +265,7 @@ class GVAR(Actions) {
         icon = QPATHTOEF(medical_gui,ui\surgical_kit.paa);
         category = "advanced";
         items[] = {"ACE_surgicalKit"};
+        condition = "";
         treatmentLocations[] = {QEGVAR(medical,useLocation_SurgicalKit)};
         allowSelfTreatment = 0;
         requiredMedic = QEGVAR(medical,medicSetting_SurgicalKit);
