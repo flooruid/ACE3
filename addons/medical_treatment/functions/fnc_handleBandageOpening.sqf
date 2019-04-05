@@ -18,6 +18,7 @@
  */
 
 params ["_target", "_impact", "_part", "_injuryIndex", "_injury", "_bandage"];
+TRACE_6("handleBandageOpening",_target,_impact,_part,_injuryIndex,_injury,_bandage);
 
 private _classID = _injury select 1;
 private _bodyPartN = _injury select 2;
@@ -113,7 +114,7 @@ if (random 1 <= _reopeningChance) then {
                 _target setVariable [QEGVAR(medical,bandagedWounds), _bandagedWounds, true];
                 _target setVariable [QEGVAR(medical,openWounds), _openWounds, true];
 
-                [_unit] call EFUNC(medical_status,updateWoundBloodLoss);
+                [_target] call EFUNC(medical_status,updateWoundBloodLoss);
             };
         };
     }, [_target, _impact, _part, _injuryIndex, +_injury], _delay] call CBA_fnc_waitAndExecute;

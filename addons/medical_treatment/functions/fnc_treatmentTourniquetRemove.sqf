@@ -30,7 +30,7 @@ if (_tourniquets select _partIndex == 0) exitWith {
 _tourniquets set [_partIndex, 0];
 _target setVariable [VAR_TOURNIQUET, _tourniquets, true];
 
-[_unit] call EFUNC(medical_status,updateWoundBloodLoss);
+[_target] call EFUNC(medical_status,updateWoundBloodLoss);
 
 // Adding the tourniquet item to the caller
 [_caller, "ACE_tourniquet", true] call CBA_fnc_addItem;

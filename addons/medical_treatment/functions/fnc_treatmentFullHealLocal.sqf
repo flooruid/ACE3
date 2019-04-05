@@ -30,7 +30,7 @@ _target setVariable [QEGVAR(medical,stitchedWounds), [], true];
 _target setVariable [QEGVAR(medical,isLimping), false, true];
 
 // - Update wound bleeding
-[_unit] call EFUNC(medical_status,updateWoundBloodLoss);
+[_target] call EFUNC(medical_status,updateWoundBloodLoss);
 
 // vitals
 _target setVariable [VAR_HEART_RATE, DEFAULT_HEART_RATE, true];
