@@ -32,7 +32,6 @@ _unit setVariable [VAR_PERIPH_RES, DEFAULT_PERIPH_RES, true];
 _unit setVariable [VAR_PERIPH_RES_ADJ, [], true];
 _unit setVariable [VAR_CRDC_ARRST, false, true];
 _unit setVariable [VAR_HEMORRHAGE, 0, true];
-_unit setVariable [VAR_IS_BLEEDING, false, true];
 
 // - Pain ---------------------------------------------------------------------
 _unit setVariable [VAR_PAIN, 0, true];

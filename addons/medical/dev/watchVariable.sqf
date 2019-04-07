@@ -30,8 +30,9 @@
     private _woundBleeding = GET_WOUND_BLEEDING(_unit);
     private _bloodLoss = GET_BLOOD_LOSS(_unit);
     private _hemorrhage = GET_HEMORRHAGE(_unit);
-    private _secondsToHeartstop = if (_bloodLoss != 0) then {format ["[<t color ='#FF9999'>Time Left:</t> %1 sec]", (((_bloodVolume - BLOOD_VOLUME_CLASS_4_HEMORRHAGE) max 0) / _bloodLoss) toFixed 1]} else {""};
-    _return pushBack format ["Blood: %1 [Hemorrhage: %2]", _bloodVolume toFixed 3, _hemorrhage];
+    private _isBleeding = if (IS_BLEEDING(_unit)) then {"<t color ='#FF9999'>Bleeding</t>"} else {""};
+    private _secondsToHeartstop = if (_bloodLoss != 0) then {format ["[<t color ='#FF9999'>Time Left:</t> %1 sec]", (((_bloodVolume - BLOOD_VOLUME_CLASS_4_HEMORRHAGE) max 0) / _bloodLoss) toFixed 0]} else {""};
+    _return pushBack format ["Blood: %1 [Hemorrhage: %2] %3", _bloodVolume toFixed 3, _hemorrhage, _isBleeding];
     _return pushBack format [" - [W: %1 T: %2] %3", _woundBleeding toFixed 4, _bloodLoss toFixed 4, _secondsToHeartstop];
 
     // Heart:

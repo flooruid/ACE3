@@ -51,16 +51,7 @@ if (_hemorrhage != GET_HEMORRHAGE(_unit)) then {
     _unit setVariable [VAR_HEMORRHAGE, _hemorrhage, true];
 };
 
-private _bloodLoss = GET_WOUND_BLEEDING(_unit);
-if (_bloodLoss > 0) then {
-    if !IS_BLEEDING(_unit) then {
-        _unit setVariable [VAR_IS_BLEEDING, true, true];
-    };
-} else {
-    if IS_BLEEDING(_unit) then {
-        _unit setVariable [VAR_IS_BLEEDING, false, true];
-    };
-};
+private _woundBloodLoss = GET_WOUND_BLEEDING(_unit);
 
 private _inPain = GET_PAIN_PERCEIVED(_unit) > 0;
 if !(_inPain isEqualTo IS_IN_PAIN(_unit)) then {
@@ -127,10 +118,10 @@ switch (true) do {
             [QEGVAR(medical,CriticalVitals), _unit] call CBA_fnc_localEvent;
         };
     };
-    case (_bloodLoss / EGVAR(medical,bleedingCoefficient) > BLOOD_LOSS_KNOCK_OUT_THRESHOLD * _cardiacOutput): {
+    case (_woundBloodLoss > BLOOD_LOSS_KNOCK_OUT_THRESHOLD): {
         [QEGVAR(medical,CriticalVitals), _unit] call CBA_fnc_localEvent;
     };
-    case (_bloodLoss > 0): {
+    case (_woundBloodLoss > 0): {
         [QEGVAR(medical,LoweredVitals), _unit] call CBA_fnc_localEvent;
     };
     case (_inPain): {
@@ -141,7 +132,7 @@ switch (true) do {
 #ifdef DEBUG_MODE_FULL
 if (!isPlayer _unit) then {
     private _painLevel = _unit getVariable [VAR_PAIN, 0];
-    hintSilent format["blood volume: %1, blood loss: [%2, %3]\nhr: %4, bp: %5, pain: %6", round(_bloodVolume * 100) / 100, round(_bloodLoss * 1000) / 1000, round((_bloodLoss / (0.001 max _cardiacOutput)) * 100) / 100, round(_heartRate), _bloodPressure, round(_painLevel * 100) / 100];
+    hintSilent format["blood volume: %1, blood loss: [%2, %3]\nhr: %4, bp: %5, pain: %6", round(_bloodVolume * 100) / 100, round(_woundBloodLoss * 1000) / 1000, round((_woundBloodLoss / (0.001 max _cardiacOutput)) * 100) / 100, round(_heartRate), _bloodPressure, round(_painLevel * 100) / 100];
 };
 #endif
 

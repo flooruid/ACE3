@@ -126,7 +126,6 @@
 // These variables track the current state of status values above
 #define VAR_HEMORRHAGE      QEGVAR(medical,hemorrhage)
 #define VAR_IN_PAIN         QEGVAR(medical,inPain)
-#define VAR_IS_BLEEDING     QEGVAR(medical,isBleeding)
 #define VAR_TOURNIQUET      QEGVAR(medical,tourniquets)
 
 
@@ -141,7 +140,7 @@
 #define GET_PAIN_SUPPRESS(unit)     (unit getVariable [VAR_PAIN_SUPP,0])
 #define GET_TOURNIQUETS(unit)       (unit getVariable [VAR_TOURNIQUET, DEFAULT_TOURNIQUET_VALUES])
 #define IN_CRDC_ARRST(unit)         (unit getVariable [VAR_CRDC_ARRST,false])
-#define IS_BLEEDING(unit)           (unit getVariable [VAR_IS_BLEEDING,false])
+#define IS_BLEEDING(unit)           (GET_WOUND_BLEEDING(unit) > 0)
 #define IS_IN_PAIN(unit)            (unit getVariable [VAR_IN_PAIN,false])
 #define IS_UNCONSCIOUS(unit)        (unit getVariable [VAR_UNCON,false])
 
