@@ -69,7 +69,7 @@ version:
 	@echo "  VER  $(VERSION)"
 	$(shell sed -i -r -s 's/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/$(VERSION)/g' $(VERSION_FILES))
 	$(shell sed -i -r -s 's/[0-9]+\.[0-9]+\.[0-9]+/$(VERSION_S)/g' $(VERSION_FILES))
-	@echo -e "#define MAJOR $(MAJOR)\n#define MINOR $(MINOR)\n#define PATCHLVL $(PATCH)\n#define BUILD $(BUILD)" > "addons/main/script_version.hpp"
+	@echo "#define MAJOR $(MAJOR)\n#define MINOR $(MINOR)\n#define PATCHLVL $(PATCH)\n#define BUILD $(BUILD)" > "addons/main/script_version.hpp"
 	$(shell sed -i -r -s 's/ACE_VERSION_MAJOR [0-9]+/ACE_VERSION_MAJOR $(MAJOR)/g' extensions/CMakeLists.txt)
 	$(shell sed -i -r -s 's/ACE_VERSION_MINOR [0-9]+/ACE_VERSION_MINOR $(MINOR)/g' extensions/CMakeLists.txt)
 	$(shell sed -i -r -s 's/ACE_VERSION_REVISION [0-9]+/ACE_VERSION_REVISION $(PATCH)/g' extensions/CMakeLists.txt)
@@ -85,9 +85,7 @@ push: commit
 
 release: clean version commit
 	@"$(MAKE)" $(MAKEFLAGS) signatures
-	@echo "  ZIP  $(ZIP)_$(VERSION_S).zip"
 	@cp *.dll mod.cpp README.md docs/README_DE.md docs/README_PL.md AUTHORS.txt LICENSE logo_ace3_ca.paa meta.cpp $(BIN)
-	@zip -qr $(ZIP)_$(VERSION_S).zip $(BIN)
 
 clean:
 	rm -rf $(BIN) $(ZIP)_*.zip
