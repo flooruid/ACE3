@@ -22,8 +22,8 @@ class CfgPatches {
 // 3. Add displaynameshort to TMR standards.
 //////////////////////////////////////////////////////
 
-#include "CfgMagazines.hpp"
-
-#include "CfgWeapons.hpp"
-
-#include "CfgVehicles.hpp"
+// #include "CfgMagazines.hpp"
+//
+// #include "CfgWeapons.hpp"
+//
+// #include "CfgVehicles.hpp"

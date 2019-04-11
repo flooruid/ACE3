@@ -14,6 +14,6 @@ class CfgPatches {
     };
 };
 
-#include "CfgEventHandlers.hpp"
-#include "ACE_Settings.hpp"
-#include "CfgVehicles.hpp"
+// #include "CfgEventHandlers.hpp"
+// #include "ACE_Settings.hpp"
+// #include "CfgVehicles.hpp"

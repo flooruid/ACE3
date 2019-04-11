@@ -22,10 +22,10 @@ class CfgPatches {
 
 #include "CfgAmmo.hpp"
 #include "CfgMagazines.hpp"
-#include "CfgVehicles.hpp"
-#include "CfgWeapons.hpp"
-
-#include "CfgOptics.hpp"
+// #include "CfgVehicles.hpp"
+// #include "CfgWeapons.hpp"
+//
+// #include "CfgOptics.hpp"
 
 class ACE_Extensions {
     extensions[] += {"ace_fcs"};

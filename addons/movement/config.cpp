@@ -15,6 +15,6 @@ class CfgPatches {
 };
 
 #include "CfgEventHandlers.hpp"
-#include "CfgFatigue.hpp"
+// #include "CfgFatigue.hpp"
 #include "CfgMoves.hpp"
-#include "CfgVehicles.hpp"
+// #include "CfgVehicles.hpp"
