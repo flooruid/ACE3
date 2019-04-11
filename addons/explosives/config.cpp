@@ -14,16 +14,16 @@ class CfgPatches {
     };
 };
 
-// #include "ACE_Settings.hpp"
-// #include "CfgEventHandlers.hpp"
-// #include "CfgAmmo.hpp"
-// #include "CfgMagazines.hpp"
-// #include "CfgWeapons.hpp"
-// #include "CfgVehicles.hpp"
-// #include "CfgCloudlets.hpp"
-//
-// #include "ACE_Triggers.hpp"
-// #include "ACE_Arsenal_Stats.hpp"
+#include "ACE_Settings.hpp"
+#include "CfgEventHandlers.hpp"
+#include "CfgAmmo.hpp"
+#include "CfgMagazines.hpp"
+#include "CfgWeapons.hpp"
+#include "CfgVehicles.hpp"
+#include "CfgCloudlets.hpp"
+
+#include "ACE_Triggers.hpp"
+#include "ACE_Arsenal_Stats.hpp"
 
 // UI stuff
 class RscText;
@@ -35,18 +35,18 @@ class ctrlXSliderH;
 #include "TimerDialog.hpp"
 #include "GUI_VirtualAmmo.hpp"
 
-// class CfgActions {
-//     class None;
-//     class ActivateMine: None {
-//         show = 0;
-//     };
-//     class Deactivate:None {
-//         show = 0;
-//     };
-//     class DeactivateMine:None {
-//         show = 0;
-//     };
-// };
+class CfgActions {
+    class None;
+    class ActivateMine: None {
+        show = 0;
+    };
+    class Deactivate:None {
+        show = 0;
+    };
+    class DeactivateMine:None {
+        show = 0;
+    };
+};
 
 class CfgMineTriggers {
     class RangeTrigger;
