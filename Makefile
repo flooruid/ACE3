@@ -12,6 +12,8 @@ BUILD = $(word 4, $(subst ., ,$(VERSION)))
 VERSION_S = $(MAJOR).$(MINOR).$(PATCH)
 GIT_HASH = $(shell git log -1 --pretty=format:"%H" | head -c 8)
 
+USE_OPTIONALS = $(patsubst optionals/%, %, $(wildcard optionals/compat_rhs_*)) nouniformrestrictions
+
 ifeq ($(OS), Windows_NT)
 	ARMAKE = ./tools/armake.exe # Downloaded via make.ps (rename armake_wXY.exe otherwise)
 else
@@ -27,6 +29,7 @@ $(BIN)/optionals/$(PREFIX)_%.pbo: optionals/%
 	@mkdir -p $(BIN)/optionals
 	@echo "  PBO  $@"
 	@${ARMAKE} build ${FLAGS} -f -e "version=$(GIT_HASH)" $< $@
+	@$(if $(findstring $(<F), $(USE_OPTIONALS)), cp -f $@ $(BIN)/addons, :)
 
 # Shortcut for building single addons (eg. "make <component>.pbo")
 %.pbo:
@@ -45,11 +48,12 @@ $(BIN)/keys/%.biprivatekey:
 
 $(BIN)/addons/$(PREFIX)_%.pbo.$(PREFIX)_$(VERSION)-$(GIT_HASH).bisign: $(BIN)/addons/$(PREFIX)_%.pbo $(BIN)/keys/$(PREFIX)_$(VERSION).biprivatekey
 	@echo "  SIG  $@"
-	@${ARMAKE} sign -f -s $@ $(BIN)/keys/$(PREFIX)_$(VERSION).biprivatekey $<
+	@${ARMAKE} sign -f $(BIN)/keys/$(PREFIX)_$(VERSION).biprivatekey $< $@
 
 $(BIN)/optionals/$(PREFIX)_%.pbo.$(PREFIX)_$(VERSION)-$(GIT_HASH).bisign: $(BIN)/optionals/$(PREFIX)_%.pbo $(BIN)/keys/$(PREFIX)_$(VERSION).biprivatekey
 	@echo "  SIG  $@"
-	@${ARMAKE} sign -f -s $@ $(BIN)/keys/$(PREFIX)_$(VERSION).biprivatekey $<
+	@${ARMAKE} sign -f $(BIN)/keys/$(PREFIX)_$(VERSION).biprivatekey $< $@
+	@$(if $(findstring $(patsubst $(PREFIX)_%.pbo, %, $(<F)), $(USE_OPTIONALS)), cp -f $@ $(BIN)/addons, :)
 
 signatures: $(patsubst addons/%, $(BIN)/addons/$(PREFIX)_%.pbo.$(PREFIX)_$(VERSION)-$(GIT_HASH).bisign, $(wildcard addons/*)) \
 		$(patsubst optionals/%, $(BIN)/optionals/$(PREFIX)_%.pbo.$(PREFIX)_$(VERSION)-$(GIT_HASH).bisign, $(wildcard optionals/*))
