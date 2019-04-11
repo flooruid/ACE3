@@ -2,7 +2,7 @@ VERSION = $(shell cat "VERSION")
 PREFIX = ace
 BIN = @ace
 ZIP = ace3
-FLAGS = -i include -w unquoted-string -w redefinition-wo-undef
+FLAGS = -i include -w unquoted-string -w redefinition-wo-undef -w non-windows-binarization
 VERSION_FILES = README.md docs/README_DE.md docs/README_PL.md mod.cpp
 
 MAJOR = $(word 1, $(subst ., ,$(VERSION)))
@@ -15,7 +15,7 @@ GIT_HASH = $(shell git log -1 --pretty=format:"%H" | head -c 8)
 ifeq ($(OS), Windows_NT)
 	ARMAKE = ./tools/armake.exe # Downloaded via make.ps (rename armake_wXY.exe otherwise)
 else
-	ARMAKE = armake
+	ARMAKE = armake2
 endif
 
 $(BIN)/addons/$(PREFIX)_%.pbo: addons/%
